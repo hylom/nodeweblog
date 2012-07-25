@@ -1,0 +1,3 @@
+# Initialize Database
+CREATE DATABASE nblog;
+GRANT ALL PRIVILEGES ON nblog.* TO 'nblogadmin'@'localhost' IDENTIFIED BY 'foobar';

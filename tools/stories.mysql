@@ -1,0 +1,13 @@
+# create stories database
+CREATE TABLE IF NOT EXISTS nblog.stories (
+  sid INT PRIMARY KEY,
+  url TEXT,
+  title TEXT,
+  body TEXT,
+  tags TEXT,
+  cdate DATETIME,
+  mdate TIMESTAMP,
+  pubdate DATETIME
+)
+
+
