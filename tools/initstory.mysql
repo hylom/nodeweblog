@@ -1,0 +1,11 @@
+# insert startup story
+INSERT INTO nblog.stories (
+  sid, url, title, body, tags, cdate, mdate, pupdate
+) VALUES (
+  DEFAULT, 'hello_world', 'Hello World',
+  'Hello World! This is sample story!',
+  ':YEAR1900,:MONTH190001,:DAY19000101,sample',
+  '1900-01-01 00:00:00',
+  NOW(),
+  '1900-01-01 00:00:00'
+);
