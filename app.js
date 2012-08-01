@@ -10,6 +10,18 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
+  //TODO
+  app.set('user', 'nblogadmin');
+  app.set('database', 'nblog');
+  app.set('passwd', 'foobar');
+
+  //TODO
+  var blog = {
+    title: 'nblog',
+    description: 'nblog blog system',
+  };
+  app.set('blog', blog);
+
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -25,7 +37,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get(
+    '/', routes.index,
+    '/admin/login', routes.admin.login,
+);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

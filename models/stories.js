@@ -96,6 +96,10 @@ Stories.prototype.remove = function (storyId, callback) {
     [storyId,], callback);
 };
 
+// 最新n件の記事を取得する
+Stories.prototype.getLatest = function (num, callback) {
+  
+};
 
 // Storiesオブジェクトを返す
 exports.connect = function (user, database, passwd) {
