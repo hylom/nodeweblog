@@ -2,7 +2,7 @@
 // All rights reserved.
 // This file is released under New BSD License.
 
-var mysql = requre('mysql');
+var mysql = require('mysql');
 
 // Stories: 記事にアクセスするためのクラス
 function Stories(user, database, passwd) {
@@ -98,7 +98,20 @@ Stories.prototype.remove = function (storyId, callback) {
 
 // 最新n件の記事を取得する
 Stories.prototype.getLatest = function (num, callback) {
-  
+  var client = this._createClient();
+  client.query(
+    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [num], function(err, results, fields) {
+      if (err) {
+	callback(err, undefined);
+	return;
+      }
+      if (results && (results.length > 0)) {
+	var stories = results;
+	callback(false, stories);
+      } else {
+	callback(false, null);
+      }
+    });
 };
 
 // Storiesオブジェクトを返す

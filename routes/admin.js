@@ -2,18 +2,20 @@
 // All rights reserved.
 // This file is released under New BSD License.
 
-var stories = require('stories').connect(app.get('user'), 
-					 app.get('database'),
-					 app.get('passwd'));
 var admin = exports;
 
 admin.login = function(req, res){
+  if (req.method == 'POST') {
+    var uname = req.body.uname || '';
+    var passwd = req.body.passwd || '';
+    res.render('admin/login', {
+      uname: uname,
+      error: 200
+    });
+    return;
+  }
   res.render('admin/login', {
-    page: {
-      title: 'nblog',
-    },
-    blog: app.get('blog'),
-    stories: stories.latest(10)
-    title: 'Express'
+    uname: '',
+    error: 200
   });
 };

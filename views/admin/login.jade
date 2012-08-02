@@ -1,5 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  #login_form
+  h2 nblog login:
+  form(method='POST', action='/admin/login')
+    label#label_username
+      | USERNAME:
+      input(type='text', name='uname', value=uname)
+    label#label_password
+      | PASSWORD:
+      input(type='password', name='passwd')
+    input(type='submit', name='login')
