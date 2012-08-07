@@ -3,33 +3,27 @@
 // This file is released under New BSD License.
 
 var mysql = require('mysql');
+var modelbase = require('./modelbase');
 
 // Stories: 記事にアクセスするためのクラス
-function Stories(user, database, passwd) {
-  this.user = user;
-  this.database = database;
-  this.passwd = passwd;
+function Stories(dbAuth) {
+  this.dbAuth = dbAuth;
 }
+Stories.prototype = new modelbase.ModelBase();
 
-// MySQLクライアントオブジェクトを作成する
-Stories.prototype._createClient = function () {
-  var client = mysql.createClient({
-    user: this.user,
-    password: this.passwd,
-    database: this.database,
-  });
-  return client;
-};
+// Storiesオブジェクトを返す
+exports.connect = function (dbAuth) {
+  return new Stories(dbAuth);
+}
 
 // 記事を新規作成する
 Stories.prototype.insert = function (story, callback) {
-  var client = this._createClient();
   var params = [ story.url,
 		 story.title,
 		 story.body,
 		 story.tags,
 		 story.pubdate ];
-  var query = client.query(
+  var query = this.query(
     'INSERT INTO stories'
       + 'SET '
       + 'url = ?,'
@@ -45,8 +39,7 @@ Stories.prototype.insert = function (story, callback) {
 
 // sidを指定してデータベースから記事を取得する
 Stories.prototype.getByStoryId = function (storyId, callback) {
-  var client = this._createClient();
-  client.query(
+  this.query(
     'SELECT * FROM stories WHERE sid = ?;',
     [storyId,], function(err, results, fields) {
       if (err) {
@@ -64,14 +57,13 @@ Stories.prototype.getByStoryId = function (storyId, callback) {
 
 // データベース内の記事をアップデートする
 Stories.prototype.update = function (storyId, story, callback) {
-  var client = this._createClient();
   var params = [ story.url,
 		 story.title,
 		 story.body,
 		 story.tags,
 		 story.pubdate,
 	         storyId ];
-  var query = client.query(
+  var query = this.query(
     'UPDATE stories '
       + 'SET '
       + 'url = ?,'
@@ -89,8 +81,7 @@ Stories.prototype.update = function (storyId, story, callback) {
 
 // データベースから記事を削除する
 Stories.prototype.remove = function (storyId, callback) {
-  var client = this._createClient();
-  var query = client.query(
+  var query = this.query(
     'DELETE from stories '
       + 'where sid = ?;',
     [storyId,], callback);
@@ -98,8 +89,7 @@ Stories.prototype.remove = function (storyId, callback) {
 
 // 最新n件の記事を取得する
 Stories.prototype.getLatest = function (num, callback) {
-  var client = this._createClient();
-  client.query(
+  this.query(
     'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [num], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
@@ -114,7 +104,3 @@ Stories.prototype.getLatest = function (num, callback) {
     });
 };
 
-// Storiesオブジェクトを返す
-exports.connect = function (user, database, passwd) {
-  return new Stories(user, database, passwd);
-}

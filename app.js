@@ -11,16 +11,20 @@ var app = express();
 
 app.configure(function(){
   //TODO
-  app.set('user', 'nblogadmin');
-  app.set('database', 'nblog');
-  app.set('passwd', 'foobar');
+  var dbAuth = {
+    host: 'silver.local',
+    user: 'nblogadmin',
+    database: 'nblog',
+    password: 'foobar'
+  };
+  app.set('databaseAuth', dbAuth);
 
   //TODO
   var blog = {
     title: 'nblog',
     description: 'nblog blog system',
   };
-  app.set('blog', blog);
+  app.set('blogInfo', blog);
 
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
