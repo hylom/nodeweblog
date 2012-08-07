@@ -8,8 +8,7 @@ var stories = require('../models/stories');
 
 exports.index = function(req, res){
   var app = req.app;
-  var conn = stories.connect(app.get('databaseAuth'));
-  conn.getLatest(10, function (err, items){
+  stories.getLatest(10, function (err, items){
     if (err) {
       res.send(500, { error: 'cannot retrive stories', err: err });
       return;

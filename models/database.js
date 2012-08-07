@@ -7,25 +7,26 @@ var mysql = require('mysql');
 var dbAuth = {
   user: 'nblogadmin',
   database: 'nblog',
-  passwd: 'foobar',
+  password: 'foobar',
   host: 'silver.local'
 };
 
 // ModelBase: Modelのベースクラス
-function ModelBase(dbAuth) {
-  this.dbAuth = dbAuth;
+function Database() {
 }
 
+Database.prototype.dbAuth = dbAuth;
+
 // MySQLクライアントオブジェクトを作成する
-ModelBase.prototype._createClient = function () {
+Database.prototype._createClient = function () {
   var client = mysql.createClient(this.dbAuth);
   return client;
 };
 
 // クエリを実行する
-ModelBase.prototype.query = function (query, params, callback) {
+Database.prototype.query = function (query, params, callback) {
   var client = this._createClient();
   client.query(query, params, callback);
 }
 
-exports.ModelBase = ModelBase;
+exports.Database = Database;

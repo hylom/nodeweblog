@@ -2,24 +2,36 @@
 // All rights reserved.
 // This file is released under New BSD License.
 
-var crypto = requre('crypto');
-var mysql = require('mysql');
-var modelbase = require('./modelbase');
+var crypto = require('crypto');
+var database = require('./database');
+var db = new database.Database();
 
-// Users: ユーザー情報にアクセスするためのクラス
-function Users(dbAuth) {
-  this.dbAuth = dbAuth;
-}
-Users.prototype = new modelbase.ModelBase();
-
-// Usersオブジェクトを返す
-exports.connect = function (dbAuth) {
-  return new Users(dbAuth);
+// 認証を行う
+exports.authenticate = function (uname, passwd, callback) {
+  db.query('SELECT * FROM users WHERE uname = ?',
+	     [uname,], queryCallback);
+  function queryCallback(err, results, fields) {
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    if (results && (results.length > 0)) {
+      userInfo = results[0];
+      if (userInfo.passwd == hashPassword(passwd)) {
+	delete userInfo.passwd;
+	callback(false, userInfo);
+	return;
+      }
+    }
+    // 該当ユーザー無し
+    callback(err, null);
+    return;
+  }
 }
 
 // ユーザー名からアカウント情報を取得する
-Users.prototype.getByUsername = function (uname, callback) {
-  this.query('SELECT * FROM users WHERE uname = ?',
+exports.getByUsername = function (uname, callback) {
+  db.query('SELECT * FROM users WHERE uname = ?',
 	     [uname,], queryCallback);
   function qurryCallback(err, results, fields) {
     if (err) {
@@ -35,22 +47,25 @@ Users.prototype.getByUsername = function (uname, callback) {
     }
   }
 }
-
+  
 // パスワードのハッシュを作成する
-Users.prototype._hashPassword = function (passwd) {
-  shasum = crypto.createHash('sha256');
+var hashPassword = function (passwd) {
+  if (passwd === '') {
+    return '';
+  }
+  var shasum = crypto.createHash('sha256');
   shasum.update(passwd);
   return shasum.digest('hex');
 }
 
 // アカウント情報をアップデートする
-Users.prototype.update = function (user, callback) {
+exports.update = function (user, callback) {
   var params = [
     user.uname,
-    this._hashPassword(user.passwd),
+    hashPassword(user.passwd),
     user.uid
   ];
-  this.query(
+  db.query(
     'UPDATE users '
       + 'SET '
       + 'uname = ?,'

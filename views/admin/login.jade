@@ -2,6 +2,8 @@ extends layout
 
 block content
   #login_form
+  if loginFailed
+    p login failed.
   h2 nblog login:
   form(method='POST', action='/admin/login')
     label#label_username

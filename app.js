@@ -25,10 +25,12 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('somethingforhash'));
+
   app.use(express.session({
     key: 'sid',
-    cookie: { secure: true }
+    cookie: {}
   }));
+
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -40,6 +42,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/admin/login', routes.admin.login);
 app.post('/admin/login', routes.admin.login);
+app.get('/admin/', routes.admin.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

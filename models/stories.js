@@ -2,23 +2,17 @@
 // All rights reserved.
 // This file is released under New BSD License.
 
-var mysql = require('mysql');
-var modelbase = require('./modelbase');
-
-// Stories: 記事にアクセスするためのクラス
-function Stories(dbAuth) {
-  this.dbAuth = dbAuth;
-}
-Stories.prototype = new modelbase.ModelBase();
+var database = require('./database');
+var db = new database.Database();
 
 // 記事を新規作成する
-Stories.prototype.insert = function (story, callback) {
+exports.insert = function (story, callback) {
   var params = [ story.url,
 		 story.title,
 		 story.body,
 		 story.tags,
 		 story.pubdate ];
-  var query = this.query(
+  db.query(
     'INSERT INTO stories'
       + 'SET '
       + 'url = ?,'
@@ -33,8 +27,8 @@ Stories.prototype.insert = function (story, callback) {
 }
 
 // sidを指定してデータベースから記事を取得する
-Stories.prototype.getByStoryId = function (storyId, callback) {
-  this.query(
+exports.getByStoryId = function (storyId, callback) {
+  db.query(
     'SELECT * FROM stories WHERE sid = ?;',
     [storyId,], function(err, results, fields) {
       if (err) {
@@ -51,14 +45,14 @@ Stories.prototype.getByStoryId = function (storyId, callback) {
 };
 
 // データベース内の記事をアップデートする
-Stories.prototype.update = function (storyId, story, callback) {
+exports.update = function (storyId, story, callback) {
   var params = [ story.url,
 		 story.title,
 		 story.body,
 		 story.tags,
 		 story.pubdate,
 	         storyId ];
-  var query = this.query(
+  db.query(
     'UPDATE stories '
       + 'SET '
       + 'url = ?,'
@@ -75,16 +69,16 @@ Stories.prototype.update = function (storyId, story, callback) {
 };
 
 // データベースから記事を削除する
-Stories.prototype.remove = function (storyId, callback) {
-  var query = this.query(
+exports.remove = function (storyId, callback) {
+  db.query(
     'DELETE from stories '
       + 'where sid = ?;',
     [storyId,], callback);
 };
 
 // 最新n件の記事を取得する
-Stories.prototype.getLatest = function (num, callback) {
-  this.query(
+exports.getLatest = function (num, callback) {
+  db.query(
     'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [num], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
@@ -99,5 +93,3 @@ Stories.prototype.getLatest = function (num, callback) {
     });
 };
 
-// Storiesオブジェクトを返す
-exports = new Stories();
