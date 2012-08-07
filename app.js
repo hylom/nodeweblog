@@ -15,7 +15,7 @@ app.configure(function(){
     title: 'nblog',
     description: 'nblog blog system',
   };
-  app.set('blog', blog);
+  app.set('blogInfo', blog);
 
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
