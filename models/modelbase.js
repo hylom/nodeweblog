@@ -4,6 +4,13 @@
 
 var mysql = require('mysql');
 
+var dbAuth = {
+  user: 'nblogadmin',
+  database: 'nblog',
+  passwd: 'foobar',
+  host: 'silver.local'
+};
+
 // ModelBase: Modelのベースクラス
 function ModelBase(dbAuth) {
   this.dbAuth = dbAuth;

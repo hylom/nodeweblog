@@ -115,6 +115,4 @@ Stories.prototype.getLatest = function (num, callback) {
 };
 
 // Storiesオブジェクトを返す
-exports.connect = function (user, database, passwd) {
-  return new Stories(user, database, passwd);
-}
+exports = new Stories();

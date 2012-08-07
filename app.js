@@ -11,11 +11,6 @@ var app = express();
 
 app.configure(function(){
   //TODO
-  app.set('user', 'nblogadmin');
-  app.set('database', 'nblog');
-  app.set('passwd', 'foobar');
-
-  //TODO
   var blog = {
     title: 'nblog',
     description: 'nblog blog system',
@@ -29,9 +24,9 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('waajiobs'));
+  app.use(express.cookieParser('somethingforhash'));
   app.use(express.session({
-    key: 'uid',
+    key: 'sid',
     cookie: { secure: true }
   }));
   app.use(app.router);
