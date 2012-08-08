@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .dialog
+    h3 Change Password:
+      form(method='POST', action='/admin/login')
+        label#label_username
+          | USERNAME:
+          input(type='text', name='uname', value=uname)
+        label#label_password
+          | PASSWORD:
+          input(type='password', name='passwd')
+        input(type='submit', name='login')

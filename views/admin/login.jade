@@ -1,15 +1,26 @@
-extends layout
-
-block content
-  #login_form
-  if loginFailed
-    p login failed.
-  h2 nblog login:
-  form(method='POST', action='/admin/login')
-    label#label_username
-      | USERNAME:
-      input(type='text', name='uname', value=uname)
-    label#label_password
-      | PASSWORD:
-      input(type='password', name='passwd')
-    input(type='submit', name='login')
+doctype 5
+html
+  head
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/jquery-1.72.min.js')
+    script(src='/js/bootstrap.js')
+  body
+    .container.login
+      .row
+        .span4.offset4
+          .dialog.login
+            .contents
+              form.well(method='POST', action='/admin/login')
+                label USERNAME:
+                input(type='text', name='uname', value=uname)
+                label PASSWORD:
+                input(type='password', name='passwd')
+                .control-group
+                  button.btn(type='submit', name='login') Login
+      if loginFailed
+        .row
+          .span4.offset4
+            .alert.alert-info
+              i.icon-exclamation-sign
+              |  login failed.
