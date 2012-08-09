@@ -42,6 +42,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/admin/login', routes.admin.login);
 app.post('/admin/login', routes.admin.login);
+app.get('/admin/logout', routes.admin.logout);
 app.get('/admin/', routes.admin.index);
 app.get('/admin/passwd', routes.admin.passwd);
 

@@ -16,6 +16,11 @@ admin.index = function(req, res) {
   });
 }
 
+admin.logout = function(req, res) {
+  req.session.destroy();
+  res.redirect('/');
+}
+
 admin.login = function(req, res) {
   if (req.method == 'POST') {
     var uname = req.body.uname || '';
