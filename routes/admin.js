@@ -6,12 +6,12 @@ var admin = exports;
 var users = require('../models/users');
 
 admin.index = function(req, res) {
-  if (req.session.uid === undefined) {
+  if (req.session.user === undefined) {
     res.redirect('/admin/login');
     return;
   }
   res.render('admin/index', {
-    uname: req.session.uid,
+    uname: req.session.user.name,
     error: 200,
   });
 }
@@ -33,8 +33,11 @@ admin.login = function(req, res) {
 	return;
       }
       // 認証に成功
-      req.session.uid = userInfo.uid;
-      res.redirect('/admin/');
+      req.session.user = {
+	uid: userInfo.uid,
+	name: userInfo.uname
+      };
+      res.redirect('/');
       return;
     }
   } else {

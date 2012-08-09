@@ -1,0 +1,17 @@
+//- navigation bar
+
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      a.brand(href='#') nblog console   
+      ul.nav
+        li 
+	  a(href="#")  new story
+      ul.nav.pull-right
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | #{user.name}
+            b.caret
+          ul.dropdown-menu
+            li a(href='#') logout
+

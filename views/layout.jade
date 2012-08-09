@@ -1,16 +1,19 @@
 doctype 5
 html
   head
-    meta(charset='')
-    meta(name='viewport', content='width=device-width')
     title= page.title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/js/jquery-1.72.min.js')
+    script(src='/js/bootstrap.js')
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/style.css')
   body
+    if adminUser
+      include navbar
     #page
       header
         hgroup
-          h1= blogInfo.title
-          h2= blogInfo.description
+          h1= blog.title
+          h2= blog.description
       #main
         block content
       footer
