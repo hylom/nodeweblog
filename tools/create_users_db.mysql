@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS nblog.users (
   uid INT PRIMARY KEY,
   uname TEXT,
   passwd TEXT
-)
+);
 
 

@@ -7,8 +7,9 @@ var mysql = require('mysql');
 var dbAuth = {
   user: 'nblogadmin',
   database: 'nblog',
-  password: 'foobar',
-  host: 'silver.local'
+  password: 'Foo-Bar-2013',
+  host: 'dev.w3jp.info',
+  port: 3333
 };
 
 // ModelBase: Modelのベースクラス

@@ -1,17 +1,17 @@
 //- navigation bar
-
+.navbar-space
 .navbar.navbar-fixed-top
   .navbar-inner
     .container
-      a.brand(href='#') nblog console   
+      a.brand(href='#') nblog:
       ul.nav
         li 
-	  a(href="#")  new story
+          a(href="#")  new story
       ul.nav.pull-right
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
             | #{user.name}
             b.caret
           ul.dropdown-menu
-            li a(href='#') logout
-
+            li
+              a(href='#') logout

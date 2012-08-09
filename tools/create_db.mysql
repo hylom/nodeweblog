@@ -1,4 +1,4 @@
 # Initialize Database
 CREATE DATABASE nblog;
-GRANT ALL PRIVILEGES ON nblog.* TO 'nblogadmin'@'localhost' IDENTIFIED BY 'foobar';
+GRANT ALL PRIVILEGES ON nblog.* TO 'nblogadmin' IDENTIFIED BY 'Foo-Bar-2013';
 FLUSH PRIVILEGES;

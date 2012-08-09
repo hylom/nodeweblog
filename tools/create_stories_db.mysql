@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS nblog.stories (
   cdate DATETIME,
   mdate TIMESTAMP,
   pubdate DATETIME
-)
+);
 
 
