@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .row
+    .span4.offset4
+      .contents.well.account-settings
+        h3 Password Settings
+        form(method='POST', action='/admin/account')
+          input(type='hidden', name='op', value='password')
+          label Current Password:
+          input(type='password', name='current')
+          label New Password:
+          input(type='password', name='passwd')
+          label Repeat Password:
+          input(type='password', name='passwd2')
+          button.btn(type='submit', name='login') Change Password
+

@@ -17,6 +17,9 @@ app.configure(function(){
   };
   app.set('blogInfo', blog);
 
+  //TODO
+  app.locals.blog = blog;
+
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -44,7 +47,7 @@ app.get('/admin/login', routes.admin.login);
 app.post('/admin/login', routes.admin.login);
 app.get('/admin/logout', routes.admin.logout);
 app.get('/admin/', routes.admin.index);
-app.get('/admin/passwd', routes.admin.passwd);
+app.get('/admin/account', routes.admin.account);
 
 
 

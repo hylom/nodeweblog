@@ -5,13 +5,17 @@
 var admin = exports;
 var users = require('../models/users');
 
-admin.index = function(req, res) {
+admin.account = function(req, res) {
   if (req.session.user === undefined) {
-    res.redirect('/admin/login');
+    res.redirect('/');
     return;
   }
-  res.render('admin/index', {
-    uname: req.session.user.name,
+  var page = {
+    title: 'Account Settings'
+  };
+  res.render('admin/account', {
+    page: page,
+    user: req.session.user,
     error: 200,
   });
 }

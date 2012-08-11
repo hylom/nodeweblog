@@ -16,7 +16,6 @@ exports.index = function(req, res){
     res.render('index', {
       page: { title: 'nblog' },
       user: req.session.user || false,
-      blog: req.app.get('blogInfo'),
       stories: items,
     });
   });
