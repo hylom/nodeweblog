@@ -3,9 +3,11 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http');
+var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var mongodb = require('mongodb');
+var mongoStore = require('connect-mongodb');
 
 var app = express();
 
@@ -29,9 +31,22 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('somethingforhash'));
 
+  // Session settings
+  var mongoOptions = {
+//    auto_reconnect: true,
+//    native_parser: true
+  };
+  var mongoServer = new mongodb.Server('dev.w3jp.info', 4444, mongoOptions);
+  var db = new mongodb.Db('nbsession', mongoServer);
+
   app.use(express.session({
     key: 'sid',
-    cookie: {}
+    cookie: {},
+    store: new mongoStore({
+      db: db,
+      username: 'nblog',
+      password: 'Foo-Bar-2000'
+    })
   }));
 
   app.use(app.router);
