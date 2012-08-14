@@ -1,6 +1,6 @@
 # create users database
 CREATE TABLE IF NOT EXISTS nblog.users (
-  uid INT PRIMARY KEY,
+  uid INT PRIMARY KEY AUTO_INCREMENT,
   uname TEXT,
   passwd TEXT
 );

@@ -1,6 +1,6 @@
 # create stories database
 CREATE TABLE IF NOT EXISTS nblog.stories (
-  sid INT PRIMARY KEY,
+  sid INT PRIMARY KEY AUTO_INCREMENT,
   url TEXT,
   title TEXT,
   body TEXT,
