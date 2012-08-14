@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .row
+    .contents.well.storyeditor
+      form(method='POST', action='/story/update')
+        label
+          input(type='text', name='title', placeholder='Title', value=story.title)
+        label
+          input(type='text', name='url', placeholder='URL', value=story.url)
+        label
+          textarea(name='body', placeholder='story body') #{story.title}
+        label
+          input(type='text', name='tags', placeholder='tags', value=story.tags)
+        label
+          input(type='text', name='pubdate', placeholder='publish date', value=story.pubdate)
+        label
+          button.btn(type='submit', name='commit') Commit Story
+

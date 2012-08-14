@@ -4,30 +4,42 @@
 
 var database = require('./database');
 var db = new database.Database();
+var stories = exports;
+
+// Storyを表現するクラス
+function Story() {
+/*
+  this.title = '';
+  this.sid = undefined;
+  this.url = '';
+  this.body = '';
+  this.tags = '';
+  this.cdate = '';
+  this.mdate = '';
+  this.pubdate = '';
+*/
+};
 
 // 記事を新規作成する
-exports.insert = function (story, callback) {
+stories.insert = function (story, callback) {
+  // FIXME: make enable to use multibyte characters
   var params = [ story.url,
 		 story.title,
 		 story.body,
 		 story.tags,
 		 story.pubdate ];
+  console.log(params);
   db.query(
-    'INSERT INTO stories'
-      + 'SET '
-      + 'url = ?,'
-      + 'title = ?,'
-      + 'body = ?,'
-      + 'tags = ?,'
-      + 'cdate = now(),'
-      + 'mdate = now(),'
-      + 'pubdate = ?'
+    'INSERT INTO stories '
+      + '(sid,     url, title, body, tags, cdate, mdate, pubdate) '
+      + 'VALUES '
+      + '(NULL, ?,   ?,     ?,    ?,    NOW(), NOW(), ?)'
       + ';',
     params, callback);
 }
 
 // sidを指定してデータベースから記事を取得する
-exports.getByStoryId = function (storyId, callback) {
+stories.getByStoryId = function (storyId, callback) {
   db.query(
     'SELECT * FROM stories WHERE sid = ?;',
     [storyId,], function(err, results, fields) {
@@ -45,7 +57,7 @@ exports.getByStoryId = function (storyId, callback) {
 };
 
 // データベース内の記事をアップデートする
-exports.update = function (storyId, story, callback) {
+stories.update = function (storyId, story, callback) {
   var params = [ story.url,
 		 story.title,
 		 story.body,
@@ -69,7 +81,7 @@ exports.update = function (storyId, story, callback) {
 };
 
 // データベースから記事を削除する
-exports.remove = function (storyId, callback) {
+stories.remove = function (storyId, callback) {
   db.query(
     'DELETE from stories '
       + 'where sid = ?;',
@@ -77,7 +89,7 @@ exports.remove = function (storyId, callback) {
 };
 
 // 最新n件の記事を取得する
-exports.getLatest = function (num, callback) {
+stories.getLatest = function (num, callback) {
   db.query(
     'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [num], function(err, results, fields) {
       if (err) {
@@ -93,3 +105,7 @@ exports.getLatest = function (num, callback) {
     });
 };
 
+// 空のstoryオブジェクトを作成する
+stories.newStory = function () {
+  return new Story();
+};

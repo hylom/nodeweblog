@@ -15,3 +15,8 @@
 .center {
   text-align: center;
 }
+
+.storyeditor input,
+.storyeditor textarea {
+  width: 100%;
+}

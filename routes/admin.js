@@ -4,6 +4,7 @@
 
 var admin = exports;
 var users = require('../models/users');
+var stories = require('../models/stories');
 
 admin.account = function(req, res) {
   if (req.session.user === undefined) {
@@ -14,6 +15,23 @@ admin.account = function(req, res) {
     title: 'Account Settings'
   };
   res.render('admin/account', {
+    page: page,
+    user: req.session.user,
+    error: 200,
+  });
+}
+
+admin.editstory = function(req, res) {
+  if (req.session.user === undefined) {
+    res.redirect(403, '/');
+    return;
+  }
+  var page = {
+    title: 'New Story'
+  };
+  var story = stories.newStory();
+  res.render('admin/storyeditor', {
+    story: story,
     page: page,
     user: req.session.user,
     error: 200,

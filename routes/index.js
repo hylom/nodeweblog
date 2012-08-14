@@ -4,6 +4,7 @@
  */
 
 exports.admin = require('./admin');
+exports.story = require('./story');
 var stories = require('../models/stories');
 
 exports.index = function(req, res){
