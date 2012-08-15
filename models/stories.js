@@ -56,6 +56,24 @@ stories.getByStoryId = function (storyId, callback) {
     });
 };
 
+// urlを指定してデータベースから記事を取得する
+stories.getByUrl = function (url, callback) {
+  db.query(
+    'SELECT * FROM stories WHERE url = ?;',
+    [url,], function(err, results, fields) {
+      if (err) {
+	callback(err, undefined);
+	return;
+      }
+      if (results && (results.length > 0)) {
+	var story = results[0];
+	callback(false, story);
+      } else {
+	callback(false, null);
+      }
+    });
+};
+
 // データベース内の記事をアップデートする
 stories.update = function (storyId, story, callback) {
   var params = [ story.url,

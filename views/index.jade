@@ -3,6 +3,5 @@ extends layout
 block content
   .stories
     each story in stories
-      h3= story.title
-      .body
-        #{story.body}
+      include common/story
+
