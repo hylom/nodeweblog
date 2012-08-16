@@ -1,3 +1,10 @@
-h3= story.title
-.body
-  !{story.body}
+.story
+  h2
+    a(href='/#{story.url}') #{story.title}
+  .header
+    - var pubdate = story.dateFormat(story.pubdate);
+    | posted on #{pubdate}
+  .body
+    !{story.body}
+  .footer
+    | Tags: #{story.tags}

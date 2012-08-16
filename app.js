@@ -14,8 +14,8 @@ var app = express();
 app.configure(function(){
   //TODO
   var blog = {
-    title: 'nblog',
-    description: 'nblog blog system',
+    title: 'nodeWeblog',
+    description: 'nodeWeblog blog system',
   };
   app.set('blogInfo', blog);
 

@@ -1,22 +1,67 @@
 
 
+/* header */
+header {
+  border-bottom: 1px solid;
+  margin-bottom: 1em;
+}
+
+header h1 {
+  display: inline; 
+}
+header .description {
+  display: inline; 
+  font-size: 100%;
+  font-weight: normal;
+}
+
+/* footer */
+footer {
+  color: #AAA;
+}
+
+/* admin */
 .login {
   padding-top: 20px;
 }
 
-.navbar-space {
-  height:40px;
+.storyeditor input,
+.storyeditor textarea {
+  width: 100%;
 }
 
 .account-settings {
   margin-top: 20px;
 }
 
+/* navigation bar */
+.navbar-space {
+  height:40px;
+}
+
+/* common */
 .center {
   text-align: center;
 }
 
-.storyeditor input,
-.storyeditor textarea {
-  width: 100%;
+/* story */
+.story {
+  margin-bottom: 2em;
+  border-bottom: 1px dotted #AAA;
+}
+.story h2 {
+}
+
+.story .body {
+  margin-bottom: 2em;
+}
+
+.story .header {
+  color: #AAA;
+  margin-bottom: 1em;
+}
+
+.story .footer {
+  color: #AAA;
+  margin-bottom: 1em;
 }

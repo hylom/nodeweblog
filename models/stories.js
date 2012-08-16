@@ -5,20 +5,26 @@
 var database = require('./database');
 var db = new database.Database();
 var stories = exports;
+var dateformat = require('dateformat');
 
 // Storyを表現するクラス
-function Story() {
-/*
-  this.title = '';
-  this.sid = undefined;
-  this.url = '';
-  this.body = '';
-  this.tags = '';
-  this.cdate = '';
-  this.mdate = '';
-  this.pubdate = '';
-*/
+function Story(properties) {
+  for (var key in properties) {
+    this[key] = properties[key];
+  }
+  if (this.tags !== undefined) {
+    this.tags = this.tags.replace(/,/g, ' ');
+  }
+
+//  if (this.pubdate !== undefined) {
+//    this.pubdate = dateformat(this.pubdate, 'yyyy/mm/dd HH:MM:ss');
+//  }
 };
+
+Story.prototype.dateFormat = function (date) {
+  return dateformat(date, 'yyyy/mm/dd HH:MM:ss');
+}
+
 
 // 記事を新規作成する
 stories.insert = function (story, callback) {
@@ -48,7 +54,7 @@ stories.getByStoryId = function (storyId, callback) {
 	return;
       }
       if (results && (results.length > 0)) {
-	var story = results[0];
+	var story = new Story(results[0]);
 	callback(false, story);
       } else {
 	callback(false, null);
@@ -66,7 +72,7 @@ stories.getByUrl = function (url, callback) {
 	return;
       }
       if (results && (results.length > 0)) {
-	var story = results[0];
+	var story = new Story(results[0]);
 	callback(false, story);
       } else {
 	callback(false, null);
@@ -115,7 +121,10 @@ stories.getLatest = function (num, callback) {
 	return;
       }
       if (results && (results.length > 0)) {
-	var stories = results;
+        var stories = [];
+        for (var i = 0; i < results.length; i++) {
+          stories[i] = new Story(results[i]);
+        }
 	callback(false, stories);
       } else {
 	callback(false, null);
