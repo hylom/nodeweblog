@@ -8,10 +8,16 @@ block content
         form(method='POST', action='/admin/account')
           input(type='hidden', name='op', value='password')
           label Current Password:
-          input(type='password', name='current')
+          input(type='password', name='oldPassword')
           label New Password:
-          input(type='password', name='passwd')
+          input(type='password', name='password')
           label Repeat Password:
-          input(type='password', name='passwd2')
+          input(type='password', name='password2')
           button.btn(type='submit', name='login') Change Password
-
+  if errorMessage
+    .row
+      .span4.offset4
+        .alert.alert-info
+          i.icon-exclamation-sign
+          span #{errorMessage}
+  

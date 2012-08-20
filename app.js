@@ -63,6 +63,7 @@ app.post('/admin/login', routes.admin.login);
 app.get('/admin/logout', routes.admin.logout);
 app.get('/admin/', routes.admin.index);
 app.get('/admin/account', routes.admin.account);
+app.post('/admin/account', routes.admin.account);
 
 app.get('/story/new', routes.admin.editstory);
 app.post('/story/update', routes.story.update);

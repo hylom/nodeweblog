@@ -5,9 +5,10 @@
 var crypto = require('crypto');
 var database = require('./database');
 var db = new database.Database();
+var users = exports;
 
 // 認証を行う
-exports.authenticate = function (uname, passwd, callback) {
+users.authenticate = function (uname, password, callback) {
   db.query('SELECT * FROM users WHERE uname = ?',
 	     [uname,], queryCallback);
   function queryCallback(err, results, fields) {
@@ -17,8 +18,8 @@ exports.authenticate = function (uname, passwd, callback) {
     }
     if (results && (results.length > 0)) {
       userInfo = results[0];
-      if (userInfo.passwd == hashPassword(passwd)) {
-	delete userInfo.passwd;
+      if (userInfo.password == hashPassword(password)) {
+	delete userInfo.password;
 	callback(false, userInfo);
 	return;
       }
@@ -30,7 +31,7 @@ exports.authenticate = function (uname, passwd, callback) {
 }
 
 // ユーザー名からアカウント情報を取得する
-exports.getByUsername = function (uname, callback) {
+users.getByUsername = function (uname, callback) {
   db.query('SELECT * FROM users WHERE uname = ?',
 	     [uname,], queryCallback);
   function qurryCallback(err, results, fields) {
@@ -40,7 +41,7 @@ exports.getByUsername = function (uname, callback) {
     }
     if (results && (results.length > 0)) {
       userInfo = results[0];
-      delete userInfo.passwd;
+      delete userInfo.password;
       callback(false, userInfo);
     } else {
       callback(false, null);
@@ -49,31 +50,62 @@ exports.getByUsername = function (uname, callback) {
 }
   
 // パスワードのハッシュを作成する
-var hashPassword = function (passwd) {
-  if (passwd === '') {
+var hashPassword = function (password) {
+  if (password === '') {
     return '';
   }
   var shasum = crypto.createHash('sha256');
-  shasum.update(passwd);
+  shasum.update(password);
   return shasum.digest('hex');
 }
 
-// アカウント情報をアップデートする
-exports.update = function (user, callback) {
+// 実際のアップデート処理を行うローカル関数
+function _updateUser(user, callback) {
   var params = [
-    user.uname,
-    hashPassword(user.passwd),
+    user.name,
+    user.password,
     user.uid
   ];
   db.query(
     'UPDATE users '
       + 'SET '
       + 'uname = ?,'
-      + 'passwd = ?'
+      + 'password = ?'
       + 'WHERE uid = ?'
       + ';',
     params, function(err, results, fields) {
+      delete user.password;
       callback(err);
     });
+}
+
+// アカウント情報をアップデートする
+users.update = function (user, oldPassword, callback) {
+  // パスワードを更新する際は旧パスワードの情報が必須
+  var newPassword = '';
+  console.log(user);
+  if (user.password !== undefined) {
+    users.authenticate(user.name, oldPassword, function (err, oldUser) {
+      if (err) {
+        // クエリエラー
+        callback(err);
+        return;
+      }
+      if (!oldUser) {
+        // クエリは成功したが認証に失敗
+        console.log(oldUser);
+        var err = new Error('Invalid password');
+        callback(err);
+        return;
+      }
+      // 認証成功
+      user.password = hashPassword(user.password);
+      _updateUser(user, callback);
+    });
+    return;
+  }
+
+  // それ以外の更新の場合
+  _updateUser(user, callback);
 };
 

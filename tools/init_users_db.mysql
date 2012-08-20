@@ -1,6 +1,6 @@
 # initialize users database
 INSERT INTO nblog.users (
-  uid, uname, passwd
+  uid, name, password
 ) VALUES (
   DEFAULT, 'admin', ''
 );
