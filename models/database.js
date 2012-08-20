@@ -3,14 +3,9 @@
 // This file is released under New BSD License.
 
 var mysql = require('mysql');
+var config = require('../config');
 
-var dbAuth = {
-  user: 'nblogadmin',
-  database: 'nblog',
-  password: 'Foo-Bar-2013',
-  host: 'dev.w3jp.info',
-  port: 3333
-};
+var dbAuth = config.databaseAuth;
 
 // ModelBase: Modelのベースクラス
 function Database() {

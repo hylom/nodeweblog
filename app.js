@@ -9,18 +9,13 @@ var http = require('http');
 var mongodb = require('mongodb');
 var mongoStore = require('connect-mongodb');
 
+var config = require('./config');
+
 var app = express();
 
 app.configure(function(){
-  //TODO
-  var blog = {
-    title: 'nodeWeblog',
-    description: 'nodeWeblog blog system',
-  };
-  app.set('blogInfo', blog);
-
-  //TODO
-  app.locals.blog = blog;
+  app.set('config', config);
+  app.locals.blog = config.blogInfo;
 
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -29,23 +24,21 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('somethingforhash'));
+  app.use(express.cookieParser(config.cookieHash));
 
   // Session settings
-  var mongoOptions = {
-//    auto_reconnect: true,
-//    native_parser: true
-  };
-  var mongoServer = new mongodb.Server('dev.w3jp.info', 4444, mongoOptions);
+  var mongoOptions = {};
+  var mongoServer = new mongodb.Server(config.sessionAuth.host, 
+                                       config.sessionAuth.port,
+                                       mongoOptions);
   var db = new mongodb.Db('nbsession', mongoServer);
-
   app.use(express.session({
     key: 'sid',
     cookie: {},
     store: new mongoStore({
       db: db,
-      username: 'nblog',
-      password: 'Foo-Bar-2000'
+      username: config.sessionAuth.user,
+      password: config.sessionAuth.password
     })
   }));
 
