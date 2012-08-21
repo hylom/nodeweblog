@@ -61,8 +61,8 @@ app.post('/admin/account', routes.admin.account);
 app.get('/story/new', routes.admin.editstory);
 app.post('/story/update', routes.story.update);
 
+app.get('/tag/:tag', routes.tag);
 app.get('/:url', routes.single);
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

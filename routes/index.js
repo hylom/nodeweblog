@@ -13,10 +13,32 @@ exports.index = function(req, res){
       res.send(500, { error: 'cannot retrive stories', err: err });
       return;
     }
+    if (items === null) {
+      res.send(404, '404: Not Found.');
+      return;
+    }
     res.render('index', {
       page: { title: 'nblog' },
       user: req.session.user || false,
-      stories: items,
+      stories: items
+    });
+  });
+};
+
+exports.tag = function(req, res){
+  stories.getByTag(req.params.tag, 10, function (err, items){
+    if (err) {
+      res.send(500, { error: 'cannot retrive stories', err: err });
+      return;
+    }
+    if (items === null) {
+      res.send(404, '404: Not Found.');
+      return;
+    }
+    res.render('index', {
+      page: { title: 'nblog: ' + req.params.tag },
+      user: req.session.user || false,
+      stories: items
     });
   });
 };
@@ -31,11 +53,10 @@ exports.single = function(req, res){
       res.send(404, '404: Not Found.');
       return;
     }
-    console.log(item);
     res.render('single', {
       page: { title: 'nblog' },
       user: req.session.user || false,
-      story: item,
+      story: item
     });
   });
 };

@@ -25,6 +25,32 @@ Story.prototype.dateFormat = function (date) {
   return dateformat(date, 'yyyy/mm/dd HH:MM:ss');
 }
 
+// カンマ区切りのタグ情報をデータベースに記録する
+function _insertTag(tagString, sid, callback) {
+  console.log(tagString);
+  var tags = tagString.split(',');
+  var errors = [];
+  for (var i = 0; i < tags.length; i++) {
+    var tag = tags[i].trim();
+    db.query(
+      'INSERT INTO tags (name, sid) VALUES (?, ?);',
+      [tag, sid], queryCallback
+    );
+  }
+  function queryCallback(err, results, fields) {
+    console.log(err);
+    errors.push(err);
+    if (errors.length == tags.length) {
+      for (var i = 0; i < errors.length; i++) {
+        if (errors[i]) {
+          callback(errors[i]);
+          return;
+        }
+      }
+      callback(false);
+    }
+  }
+}
 
 // 記事を新規作成する
 stories.insert = function (story, callback) {
@@ -34,14 +60,46 @@ stories.insert = function (story, callback) {
 		 story.body,
 		 story.tags,
 		 story.pubdate ];
-  console.log(params);
   db.query(
     'INSERT INTO stories '
-      + '(sid,     url, title, body, tags, cdate, mdate, pubdate) '
+      + '(sid,  url, title, body, tags, cdate, mdate, pubdate) '
       + 'VALUES '
       + '(NULL, ?,   ?,     ?,    ?,    NOW(), NOW(), ?)'
       + ';',
-    params, callback);
+    params, 
+    function(err, results, fields) {
+      var sid = results.insertId;
+      if (err) {
+        callback(new Error('Insert failed.'));
+      } else {
+        _insertTag(story.tags, sid, callback);
+      }
+    });
+}
+
+// tagを指定してデータベースから記事を取得する
+stories.getByTag = function (tagName, count, callback) {
+  db.query(
+    'SELECT stories.* FROM stories '
+      + 'JOIN tags ON stories.sid = tags.sid '
+      + 'WHERE tags.name = ? '
+      + 'ORDER BY sid DESC LIMIT ?;',
+    [tagName, count],
+    function(err, results, fields) {
+      if (err) {
+	callback(err, undefined);
+	return;
+      }
+      if (results && (results.length > 0)) {
+        var stories = [];
+        for (var i = 0; i < results.length; i++) {
+          stories[i] = new Story(results[i]);
+        }
+	callback(false, stories);
+      } else {
+	callback(false, null);
+      }
+    });
 }
 
 // sidを指定してデータベースから記事を取得する
@@ -109,13 +167,13 @@ stories.remove = function (storyId, callback) {
   db.query(
     'DELETE from stories '
       + 'where sid = ?;',
-    [storyId,], callback);
+    [storyId], callback);
 };
 
 // 最新n件の記事を取得する
-stories.getLatest = function (num, callback) {
+stories.getLatest = function (count, callback) {
   db.query(
-    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [num], function(err, results, fields) {
+    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [count], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
 	return;

@@ -4,7 +4,7 @@ INSERT INTO nblog.stories (
 ) VALUES (
   DEFAULT, 'hello_world', 'Hello World',
   'Hello World! This is sample story!',
-  ':YEAR1900,:MONTH190001,:DAY19000101,sample',
+  'sample',
   '1900-01-01 00:00:00',
   NOW(),
   '1900-01-01 00:00:00'

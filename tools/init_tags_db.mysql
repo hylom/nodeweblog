@@ -1,0 +1,9 @@
+# initialize tags database
+INSERT INTO nblog.tags
+  ( name, sid )
+VALUES 
+  ('sample', 1),
+  ('test', 2),
+  ('sample', 2),
+  ('hoge', 2);
+
