@@ -12,13 +12,9 @@ function Story(properties) {
   for (var key in properties) {
     this[key] = properties[key];
   }
-  if (this.tags !== undefined) {
-    this.tags = this.tags.replace(/,/g, ' ');
+  if (this.pubdate !== undefined) {
+    this.pubdate = dateformat(this.pubdate, 'yyyy/mm/dd HH:MM:ss');
   }
-
-//  if (this.pubdate !== undefined) {
-//    this.pubdate = dateformat(this.pubdate, 'yyyy/mm/dd HH:MM:ss');
-//  }
 };
 
 Story.prototype.dateFormat = function (date) {
@@ -77,6 +73,30 @@ stories.insert = function (story, callback) {
     });
 }
 
+// データベース内の記事をアップデートする
+stories.update = function (storyId, story, callback) {
+  var params = [ story.url,
+		 story.title,
+		 story.body,
+		 story.tags,
+		 story.pubdate,
+	         storyId ];
+  db.query(
+    'UPDATE stories '
+      + 'SET '
+      + 'url = ?,'
+      + 'title = ?,'
+      + 'body = ?,'
+      + 'tags = ?,'
+      + 'mdate = now(),'
+      + 'pubdate = ?'
+      + 'WHERE sid = ?'
+      + ';',
+    params, function(err, results, fields) {
+      callback(err);
+    });
+};
+
 // tagを指定してデータベースから記事を取得する
 stories.getByTag = function (tagName, count, callback) {
   db.query(
@@ -103,10 +123,10 @@ stories.getByTag = function (tagName, count, callback) {
 }
 
 // sidを指定してデータベースから記事を取得する
-stories.getByStoryId = function (storyId, callback) {
+stories.getBySid = function (sid, callback) {
   db.query(
     'SELECT * FROM stories WHERE sid = ?;',
-    [storyId,], function(err, results, fields) {
+    [sid], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
 	return;
@@ -135,30 +155,6 @@ stories.getByUrl = function (url, callback) {
       } else {
 	callback(false, null);
       }
-    });
-};
-
-// データベース内の記事をアップデートする
-stories.update = function (storyId, story, callback) {
-  var params = [ story.url,
-		 story.title,
-		 story.body,
-		 story.tags,
-		 story.pubdate,
-	         storyId ];
-  db.query(
-    'UPDATE stories '
-      + 'SET '
-      + 'url = ?,'
-      + 'title = ?,'
-      + 'body = ?,'
-      + 'tags = ?,'
-      + 'mdate = now(),'
-      + 'pubdate = ?'
-      + 'WHERE page_id = ?'
-      + ';',
-    params, function(err, results, fields) {
-      callback(err);
     });
 };
 

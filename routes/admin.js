@@ -57,7 +57,7 @@ admin.account = function(req, res) {
   }
 }
 
-admin.editstory = function(req, res) {
+admin.newstory = function(req, res) {
   if (req.session.user === undefined) {
     res.redirect(403, '/');
     return;
@@ -71,6 +71,28 @@ admin.editstory = function(req, res) {
     page: page,
     user: req.session.user,
     error: 200,
+  });
+}
+
+admin.editstory = function(req, res) {
+  if (req.session.user === undefined) {
+    res.redirect(403, '/');
+    return;
+  }
+  var page = {
+    title: 'New Story'
+  };
+  stories.getBySid(req.params.sid, function(err, story) {
+    if (!story) {
+      res.send(404);
+      return;
+    }
+    res.render('admin/storyeditor', {
+      story: story,
+      page: page,
+      user: req.session.user,
+      error: 200,
+    });
   });
 }
 

@@ -3,7 +3,13 @@
     a(href='/#{story.url}') #{story.title}
   .header
     - var pubdate = story.dateFormat(story.pubdate);
-    | posted on #{pubdate}
+    span posted on #{pubdate}
+    if user
+      span
+        |  [
+        a(href='/story/edit/'+story.sid) edit
+        | ]
+
   .body
     !{story.body}
   .footer

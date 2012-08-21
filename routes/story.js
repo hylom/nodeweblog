@@ -22,14 +22,18 @@ story.update = function(req, res) {
     story.pubdate = req.body.pubdate || dateFormat(new Date(), 'isoDateTime');
 
     if (story.sid === null) {
-      stories.insert(story, function (err) {
-        console.log(err);
-        if (err) {
-          res.send(500);
-        } else {
-          res.redirect('/');
-        }
-      });
+      stories.insert(story, cbInsert);
+    } else {
+      stories.update(story.sid, story, cbInsert);
+    }
+
+    function cbInsert(err) {
+      console.log(err);
+      if (err) {
+        res.send(500);
+      } else {
+        res.redirect('/');
+      }
     }
 
   } else {
