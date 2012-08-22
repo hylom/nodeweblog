@@ -17,35 +17,20 @@ function Story(properties) {
   }
 };
 
+// 日付書式のフォーマットを行う関数
 Story.prototype.dateFormat = function (date) {
   return dateformat(date, 'yyyy/mm/dd HH:MM:ss');
 }
 
 // カンマ区切りのタグ情報をデータベースに記録する
 function _insertTag(tagString, sid, callback) {
-  console.log(tagString);
   var tags = tagString.split(',');
-  var errors = [];
   for (var i = 0; i < tags.length; i++) {
     var tag = tags[i].trim();
-    db.query(
-      'INSERT INTO tags (name, sid) VALUES (?, ?);',
-      [tag, sid], queryCallback
-    );
+    db.query( 'INSERT INTO tags (name, sid) VALUES (?, ?);',
+              [tag, sid] );
   }
-  function queryCallback(err, results, fields) {
-    console.log(err);
-    errors.push(err);
-    if (errors.length == tags.length) {
-      for (var i = 0; i < errors.length; i++) {
-        if (errors[i]) {
-          callback(errors[i]);
-          return;
-        }
-      }
-      callback(false);
-    }
-  }
+  db.end(callback);
 }
 
 // 記事を新規作成する
@@ -167,9 +152,15 @@ stories.remove = function (storyId, callback) {
 };
 
 // 最新n件の記事を取得する
-stories.getLatest = function (count, callback) {
+stories.getLatest = function (count, skip, callback) {
+  // skip引数はオプションなので省略可能
+  if ('function' === typeof skip) {
+    callback = skip;
+    skip = undefined;
+  }
+  skip = skip | 0;
   db.query(
-    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?;', [count], function(err, results, fields) {
+    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?, ?;', [skip, count], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
 	return;
