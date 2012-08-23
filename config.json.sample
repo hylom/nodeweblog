@@ -11,10 +11,4 @@
     "description": "nodeWeblog blog system"
   },
   "cookieHash": "somethingforhash",
-  "sessionAuth": {
-    "host": "localhost",
-    "port": 27017,
-    "user": "nblog",
-    "password": ""
-  }
 }
