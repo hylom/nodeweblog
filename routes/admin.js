@@ -97,8 +97,9 @@ admin.editstory = function(req, res) {
 }
 
 admin.logout = function(req, res) {
-  req.session.destroy();
-  res.redirect('/');
+  req.session.destroy(function (err) {
+    res.redirect('/');
+  });
 }
 
 admin.login = function(req, res) {

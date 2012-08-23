@@ -6,8 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
-var mongodb = require('mongodb');
-var mongoStore = require('connect-mongodb');
+var MemcachedStore = require('connect-memcached')(express);
 
 var config = require('./config');
 
@@ -25,23 +24,11 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser(config.cookieHash));
-
-  // Session settings
-  var mongoOptions = {};
-  var mongoServer = new mongodb.Server(config.sessionAuth.host, 
-                                       config.sessionAuth.port,
-                                       mongoOptions);
-  var db = new mongodb.Db('nbsession', mongoServer);
   app.use(express.session({
     key: 'sid',
     cookie: {},
-    store: new mongoStore({
-      db: db,
-      username: config.sessionAuth.user,
-      password: config.sessionAuth.password
-    })
+    store: new MemcachedStore
   }));
-
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
