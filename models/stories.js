@@ -83,13 +83,13 @@ stories.update = function (storyId, story, callback) {
 };
 
 // tagを指定してデータベースから記事を取得する
-stories.getByTag = function (tagName, count, callback) {
+stories.getByTag = function (tagName, count, skip, callback) {
   db.query(
     'SELECT stories.* FROM stories '
       + 'JOIN tags ON stories.sid = tags.sid '
       + 'WHERE tags.name = ? '
-      + 'ORDER BY sid DESC LIMIT ?;',
-    [tagName, count],
+      + 'ORDER BY pubdate DESC LIMIT ?, ?;',
+    [tagName, skip, count],
     function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
@@ -160,7 +160,7 @@ stories.getLatest = function (count, skip, callback) {
   }
   skip = skip | 0;
   db.query(
-    'SELECT * FROM stories ORDER BY sid DESC LIMIT ?, ?;', [skip, count], function(err, results, fields) {
+    'SELECT * FROM stories ORDER BY pubdate DESC LIMIT ?, ?;', [skip, count], function(err, results, fields) {
       if (err) {
 	callback(err, undefined);
 	return;
@@ -181,3 +181,25 @@ stories.getLatest = function (count, skip, callback) {
 stories.newStory = function () {
   return new Story();
 };
+
+
+// 記事数を取得する
+stories.count = function (callback) {
+  db.query(
+    'SELECT COUNT(*) FROM stories',
+    [], 
+    function(err, results, fields) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(results[0]['COUNT(*)']);
+      }
+    });
+}
+
+// 次ページがあるかどうかをチェックする
+stories.hasNext = function (count, skip, callback) {
+  stories.count(function (storiesCount) {
+    callback(storiesCount > (skip + count));
+  });
+}

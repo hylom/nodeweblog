@@ -50,7 +50,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
 app.get('/admin/login', routes.admin.login);
 app.post('/admin/login', routes.admin.login);
 app.get('/admin/logout', routes.admin.logout);
@@ -63,7 +62,10 @@ app.get('/story/edit/:sid', routes.admin.editstory);
 app.post('/story/update', routes.story.update);
 
 app.get('/tag/:tag', routes.tag);
+app.get('/tag/:tag/page/:page', routes.tag);
+app.get('/page/:page', routes.index);
 app.get('/:url', routes.single);
+app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

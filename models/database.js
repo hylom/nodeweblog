@@ -24,6 +24,8 @@ Database.prototype._getClient = function () {
 // クエリを実行する
 Database.prototype.query = function (query, params, callback) {
   var client = this._getClient();
+  console.log('Database.query - query:' + query);
+  console.log('Database.query - params:' + params);
   return client.query(query, params, callback);
 }
 
