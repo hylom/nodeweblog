@@ -1,5 +1,5 @@
 # create stories database
-CREATE TABLE IF NOT EXISTS nblog.stories (
+CREATE TABLE IF NOT EXISTS nodeweblog.stories (
   sid INT PRIMARY KEY AUTO_INCREMENT,
   url TEXT,
   title TEXT,

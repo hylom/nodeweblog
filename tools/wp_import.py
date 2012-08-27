@@ -10,8 +10,8 @@ import sys
 if __name__ == "__main__":
     #user = raw_input('User: ')
     #password = getpass.getpass('Password: ')
-    user = 'nblogadmin'
-    password = 'Foo-Bar-2013'
+    user = 'nodeweblog'
+    password = 'FooBar2013'
 
     fh = open(sys.argv[1], 'r')
     posts = pickle.load(fh)

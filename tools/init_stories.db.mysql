@@ -1,5 +1,5 @@
 # insert startup story
-INSERT INTO nblog.stories (
+INSERT INTO nodeweblog.stories (
   sid, url, title, body, tags, cdate, mdate, pubdate
 ) VALUES (
   DEFAULT, 'hello_world', 'Hello World',

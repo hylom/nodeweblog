@@ -1,5 +1,5 @@
 # create stories database
-CREATE TABLE IF NOT EXISTS nblog.tags (
+CREATE TABLE IF NOT EXISTS nodeweblog.tags (
   name TEXT NOT NULL,
   sid INT NOT NULL
 );

@@ -1,5 +1,5 @@
 # create users database
-CREATE TABLE IF NOT EXISTS nblog.users (
+CREATE TABLE IF NOT EXISTS nodeweblog.users (
   uid INT PRIMARY KEY AUTO_INCREMENT,
   uname TEXT,
   passwd TEXT

@@ -1,5 +1,5 @@
 # initialize users database
-INSERT INTO nblog.users (
+INSERT INTO nodeweblog.users (
   uid, name, password
 ) VALUES (
   DEFAULT, 'admin', ''

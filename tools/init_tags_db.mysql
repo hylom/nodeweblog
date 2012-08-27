@@ -1,5 +1,5 @@
 # initialize tags database
-INSERT INTO nblog.tags
+INSERT INTO nodeweblog.tags
   ( name, sid )
 VALUES 
   ('sample', 1),
