@@ -104,15 +104,15 @@ admin.logout = function(req, res) {
 
 admin.login = function(req, res) {
   if (req.method == 'POST') {
-    var uname = req.body.uname || '';
+    var name = req.body.name || '';
     var passwd = req.body.passwd || '';
     
-    users.authenticate(uname, passwd, authCallback);
+    users.authenticate(name, passwd, authCallback);
     function authCallback(err, userInfo) {
       if (err || userInfo === null) {
 	// 認証に失敗
 	res.render('admin/login', {
-	  uname: uname,
+	  name: name,
 	  error: 200,
 	  loginFailed: true
 	});
@@ -121,7 +121,7 @@ admin.login = function(req, res) {
       // 認証に成功
       req.session.user = {
 	uid: userInfo.uid,
-	name: userInfo.uname
+	name: userInfo.name
       };
       res.redirect('/');
       return;
@@ -129,7 +129,7 @@ admin.login = function(req, res) {
   } else {
     // POST以外のリクエストに対する処理
     res.render('admin/login', {
-      uname: uname,
+      name: name,
       error: 200,
       loginFailed: false
     });

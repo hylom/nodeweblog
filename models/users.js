@@ -8,9 +8,9 @@ var db = new database.Database();
 var users = exports;
 
 // 認証を行う
-users.authenticate = function (uname, password, callback) {
-  db.query('SELECT * FROM users WHERE uname = ?',
-	     [uname,], queryCallback);
+users.authenticate = function (name, password, callback) {
+  db.query('SELECT * FROM users WHERE name = ?',
+	     [name,], queryCallback);
   function queryCallback(err, results, fields) {
     if (err) {
       callback(err, null);
@@ -31,9 +31,9 @@ users.authenticate = function (uname, password, callback) {
 }
 
 // ユーザー名からアカウント情報を取得する
-users.getByUsername = function (uname, callback) {
-  db.query('SELECT * FROM users WHERE uname = ?',
-	     [uname,], queryCallback);
+users.getByUsername = function (name, callback) {
+  db.query('SELECT * FROM users WHERE name = ?',
+	     [name,], queryCallback);
   function qurryCallback(err, results, fields) {
     if (err) {
       callback(err, undefined);
@@ -69,7 +69,7 @@ function _updateUser(user, callback) {
   db.query(
     'UPDATE users '
       + 'SET '
-      + 'uname = ?,'
+      + 'name = ?,'
       + 'password = ?'
       + 'WHERE uid = ?'
       + ';',
