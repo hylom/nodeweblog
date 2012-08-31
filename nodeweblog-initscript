@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+#	/etc/rc.d/init.d/nodeweblog
+#
+#	nodeweblog startup script.
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+TARGET_SCRIPT=/home/hylom/repos/nblog/app.js
+LOGFILE=/var/log/nodeweblog.log
+STDOUTFILE=/var/log/nodeweblog.out
+ERRORFILE=/var/log/nodeweblog.err
+PIDFILE=/var/run/nodeweblog.pid
+FOREVER_DIR=/var/run/forever
+
+start() {
+	echo -n "Starting nodeweblog: "
+
+	forever start -p $FOREVER_DIR --pidfile $PIDFILE -l $LOGFILE -o $STDOUTFILE -e $ERRORFILE $TARGET_SCRIPT
+	touch /var/lock/subsys/nodeweblog
+	return 0
+}	
+
+stop() {
+	echo -n "Shutting down nodeweblog: "
+	forever stop $TARGET_SCRIPT
+	rm -f /var/lock/subsys/nodeweblog
+	return 0
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    status)
+	forever list
+	;;
+    restart)
+    	stop
+	start
+	;;
+    *)
+	echo "Usage: nodeweblog {start|stop|status|restart}"
+	exit 1
+	;;
+esac
+exit $?
+

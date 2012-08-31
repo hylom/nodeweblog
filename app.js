@@ -55,5 +55,9 @@ app.get('/:url', routes.single);
 app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function(){
+  if (config.nodeUser !== undefined) {
+    process.setgid(config.nodeUser.gid);
+    process.setuid(config.nodeUser.uid);
+  }
   console.log("Express server listening on port " + app.get('port'));
 });
