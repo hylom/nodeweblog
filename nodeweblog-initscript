@@ -8,25 +8,29 @@
 # Source function library.
 . /etc/init.d/functions
 
-TARGET_SCRIPT=/home/hylom/repos/nblog/app.js
+TARGET_SCRIPT=/var/nodeweblog/app.js
 LOGFILE=/var/log/nodeweblog.log
 STDOUTFILE=/var/log/nodeweblog.out
 ERRORFILE=/var/log/nodeweblog.err
 PIDFILE=/var/run/nodeweblog.pid
 FOREVER_DIR=/var/run/forever
+LOCKFILE=/var/lock/subsys/nodeweblog
 
 start() {
-	echo -n "Starting nodeweblog: "
-
-	forever start -p $FOREVER_DIR --pidfile $PIDFILE -l $LOGFILE -o $STDOUTFILE -e $ERRORFILE $TARGET_SCRIPT
-	touch /var/lock/subsys/nodeweblog
-	return 0
+	echo "Starting nodeweblog: "
+	if [ -e $LOCKFILE ]; then
+		echo "nodeweblog already running."
+	else
+		forever start -a -p $FOREVER_DIR --pidfile $PIDFILE -l $LOGFILE -o $STDOUTFILE -e $ERRORFILE $TARGET_SCRIPT
+		touch $LOCKFILE
+	fi
+ 	return 0
 }	
 
 stop() {
-	echo -n "Shutting down nodeweblog: "
+	echo "Shutting down nodeweblog: "
 	forever stop $TARGET_SCRIPT
-	rm -f /var/lock/subsys/nodeweblog
+	rm -f $LOCKFILE
 	return 0
 }
 
