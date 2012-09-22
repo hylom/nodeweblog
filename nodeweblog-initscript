@@ -1,12 +1,11 @@
 #!/bin/bash
 #
-#	/etc/rc.d/init.d/nodeweblog
-#
+#	/etc/init.d/nodeweblog
 #	nodeweblog startup script.
 #
+# chkconfig:   345 98 2
+# description: Tiny blog service powered by Node.js.
 
-# Source function library.
-. /etc/init.d/functions
 
 DAEMON_NAME=nodeweblog
 TARGET_SCRIPT=/var/nodeweblog/app.js
