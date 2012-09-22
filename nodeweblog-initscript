@@ -8,18 +8,19 @@
 # Source function library.
 . /etc/init.d/functions
 
+DAEMON_NAME=nodeweblog
 TARGET_SCRIPT=/var/nodeweblog/app.js
-LOGFILE=/var/log/nodeweblog.log
-STDOUTFILE=/var/log/nodeweblog.out
-ERRORFILE=/var/log/nodeweblog.err
-PIDFILE=/var/run/nodeweblog.pid
+LOGFILE=/var/log/${DAEMON_NAME}.log
+STDOUTFILE=/var/log/${DAEMON_NAME}.out
+ERRORFILE=/var/log/${DAEMON_NAME}.err
+PIDFILE=/var/run/${DAEMON_NAME}.pid
 FOREVER_DIR=/var/run/forever
-LOCKFILE=/var/lock/subsys/nodeweblog
+LOCKFILE=/var/lock/subsys/${DAEMON_NAME}
 
 start() {
-	echo "Starting nodeweblog: "
+	echo "Starting ${DAEMON_NAME}: "
 	if [ -e $LOCKFILE ]; then
-		echo "nodeweblog already running."
+		echo "${DAEMON_NAME} already running."
 	else
 		forever start -a -p $FOREVER_DIR --pidfile $PIDFILE -l $LOGFILE -o $STDOUTFILE -e $ERRORFILE $TARGET_SCRIPT
 		touch $LOCKFILE
@@ -28,7 +29,7 @@ start() {
 }	
 
 stop() {
-	echo "Shutting down nodeweblog: "
+	echo "Shutting down ${DAEMON_NAME}: "
 	forever stop $TARGET_SCRIPT
 	rm -f $LOCKFILE
 	return 0
@@ -49,7 +50,7 @@ case "$1" in
 	start
 	;;
     *)
-	echo "Usage: nodeweblog {start|stop|status|restart}"
+	echo "Usage: ${DAEMON_NAME} {start|stop|status|restart}"
 	exit 1
 	;;
 esac
