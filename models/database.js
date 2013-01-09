@@ -16,7 +16,7 @@ Database.prototype.dbAuth = dbAuth;
 // MySQLクライアントオブジェクトを作成する
 Database.prototype._getClient = function () {
   if (this.client === undefined) {
-    this.client = mysql.createClient(this.dbAuth);
+    this.client = mysql.createConnection(this.dbAuth);
   }
   return this.client;
 };
