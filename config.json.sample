@@ -11,6 +11,7 @@
     "description": "nodeWeblog blog system"
   },
   "cookieHash": "somethingforhash",
+  "port": 80,
   "useProxy": false,
   "proxyUrl": "http://example.net:80",
   "proxyHost": "example.net"

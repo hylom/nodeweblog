@@ -17,7 +17,7 @@ app.configure(function(){
   app.set('config', config);
   app.locals.blog = config.blogInfo;
 
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || config.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
