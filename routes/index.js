@@ -46,7 +46,6 @@ exports.index = function(req, res){
       stories: items,
       request: req
     };
-    console.log(params);
     res.render('index', params);
   });
 };
@@ -92,15 +91,16 @@ exports.tag = function(req, res){
   });
 }
 
-exports.single = function(req, res){
+exports.single = function(req, res, next){
   stories.getByUrl(req.params.url, function (err, item){
     if (err) {
       res.send(500, { error: 'cannot retrive stories', err: err });
       return;
     }
     if (item === null) {
-      res.send(404, '404: Not Found.');
-      return;
+      return next();
+      // res.send(404, '404: Not Found.');
+      // return;
     }
     res.render('single', {
       page: { title: 'nblog' },

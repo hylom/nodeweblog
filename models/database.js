@@ -16,7 +16,7 @@ Database.prototype.dbAuth = dbAuth;
 // MySQLクライアントオブジェクトを作成する
 Database.prototype._getClient = function () {
   if (this.client === undefined) {
-    this.client = mysql.createClient(this.dbAuth);
+    this.client = mysql.createConnection(this.dbAuth);
   }
   return this.client;
 };
@@ -24,8 +24,8 @@ Database.prototype._getClient = function () {
 // クエリを実行する
 Database.prototype.query = function (query, params, callback) {
   var client = this._getClient();
-  console.log('Database.query - query:' + query);
-  console.log('Database.query - params:' + params);
+//  console.log('Database.query - query:' + query);
+//  console.log('Database.query - params:' + params);
   return client.query(query, params, callback);
 }
 

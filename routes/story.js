@@ -28,7 +28,6 @@ story.update = function(req, res) {
     }
 
     function cbInsert(err) {
-      console.log(err);
       if (err) {
         res.send(500);
       } else {
