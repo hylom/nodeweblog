@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
+var url = require('url');
 var MemcachedStore = require('connect-memcached')(express);
 
 var config = require('./config');
@@ -31,6 +32,14 @@ app.configure(function(){
   }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+
+  // use proxy
+  if (config.useProxy) {
+    var proxy = require('proxy-middleware');
+    var proxyOptions = url.parse(config.proxyUrl);
+    proxyOptions.headers = {'host': config.proxyHost};
+    app.use(proxy(proxyOptions));
+  }
 });
 
 app.configure('development', function(){

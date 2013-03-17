@@ -11,6 +11,6 @@
     "jade": "*",
     "dateformat": "*",
     "connect-memcached": "*",
-    "http-proxy": "*"
+    "proxy-middleware": "*"
   }
 }

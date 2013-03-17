@@ -11,4 +11,7 @@
     "description": "nodeWeblog blog system"
   },
   "cookieHash": "somethingforhash",
+  "useProxy": false,
+  "proxyUrl": "http://example.net:80",
+  "proxyHost": "example.net"
 }
