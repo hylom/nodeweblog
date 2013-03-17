@@ -64,7 +64,7 @@ app.get('/:url', routes.single);
 app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function(){
-  if (config.nodeUser !== undefined) {
+  if ((config.nodeUser !== undefined) && (process.getuid() == 0) ){
     process.setgid(config.nodeUser.gid);
     process.setuid(config.nodeUser.uid);
   }
