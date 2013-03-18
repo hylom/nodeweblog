@@ -1,4 +1,17 @@
 
+* {
+  color: #444;
+  margin: 0;
+  padding: 0;
+}
+
+dd {
+  margin-bottom: 0.5em;
+}
+
+p, pre {
+  margin-bottom: 1em;
+}
 
 /* header */
 header {
@@ -42,6 +55,23 @@ footer {
 /* common */
 .center {
   text-align: center;
+}
+
+/* sidebar */
+.sidebar-box {
+  margin-bottom: 2em;
+  padding: 0 8px;
+}
+
+.sidebar-box h3 {
+  color: #777;
+  font-size: 120%;
+  border-bottom: 1px solid #AAA;
+  margin-bottom: 4px;
+}
+
+.sidebar-box .box-contents {
+  padding: 0 2px;
 }
 
 /* story */
