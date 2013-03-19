@@ -6,6 +6,16 @@ html
     script(src='/js/bootstrap.js')
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/style.css')
+
+    script(type='text/javascript')
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10158631-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+
   body
     if user
       include common/navbar
@@ -36,8 +46,8 @@ html
           .sidebar-box
             h3 お知らせ：
             .box-contents
-              a(href='http://www.amazon.co.jp/dp/4797370904/')
-                img.block(border='0', src='http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4797370904&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1', width='126', height='160', alt='はじめてのNode.js')
+              a(href='http://www.amazon.co.jp/gp/product/4797370904/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4797370904&linkCode=as2&tag=hylom-22',target='_blank')
+                img.block(border='0', src='http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4797370904&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=hylom-22', width='126', height='160', alt='はじめてのNode.js')
               p Node.jsの解説本「はじめてのNode.js -サーバーサイドJavaScriptでWebアプリを開発する-」を出版しました。Node.jsのインストールや環境構築、パッケージの利用、Webアプリケーション作成、データベースやファイルアクセス、Expressフレームワークの利用、デバッグやテストといった、Node.jsでのWebアプリケーション作成に必要な知識を一通り解説しています。
 
           .sidebar-box
