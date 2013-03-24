@@ -1,8 +1,33 @@
+/* global settings */
 
 * {
   color: #444;
   margin: 0;
   padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1em;
+}
+
+table {
+  border: 1px solid #999;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.2em 0.4em;
+}
+
+th {
+  background: #ddd;
+}
+
+table caption {
+  font-weight: bold;
+  text-align: left;
 }
 
 dd {
