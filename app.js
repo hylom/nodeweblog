@@ -31,8 +31,8 @@ app.configure(function(){
   } else {
     // if config.accessLog is exists, output logs to the file.
     var logStream;
-    if (config.logFile) {
-      logStream = fs.createWriteStream(config.accessLog, {mode: 'a'});
+    if (config.accessLog) {
+      logStream = fs.createWriteStream(config.accessLog, {flags: 'a'});
     }
     app.use(express.logger({
       format: 'default',
