@@ -35,7 +35,8 @@ app.configure(function(){
 
   // use proxy
   if (config.useProxy) {
-    var proxy = require('proxy-middleware');
+    //var proxy = require('proxy-middleware');
+    var proxy = require('./proxy-m');
     var proxyOptions = url.parse(config.proxyUrl);
     proxyOptions.headers = {'host': config.proxyHost};
     app.use(proxy(proxyOptions));
