@@ -12,6 +12,7 @@
   },
   "cookieHash": "somethingforhash",
   "port": 80,
+  "accessLog": "/var/log/nodeweblog_access.log",
   "useProxy": false,
   "proxyUrl": "http://example.net:80",
   "proxyHost": "example.net"
