@@ -36,6 +36,8 @@ module.exports = function proxyMiddleware(options) {
     });
     myReq.setTimeout(5000, function () {
       var err = new Error();
+      console.log('proxy request timed out. request: ' + opts.method
+                  + opts.path);
       err.name = 'RequestTimeout';
       err.message = 'Request Timeout.';
       next(err);
