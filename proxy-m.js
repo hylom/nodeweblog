@@ -25,6 +25,11 @@ module.exports = function proxyMiddleware(options) {
     opts.headers = options.headers ? merge(req.headers, options.headers) : req.headers;
 
     var myReq = request(opts, function (myRes) {
+      if (resp.headersSent) {
+        console.log('header already sent. request: '
+                    + opts.method + ' ' + opts.path);
+        return;
+      }
       resp.writeHead(myRes.statusCode, myRes.headers);
       myRes.on('error', function (err) {
         next(err);
@@ -36,8 +41,8 @@ module.exports = function proxyMiddleware(options) {
     });
     myReq.setTimeout(5000, function () {
       var err = new Error();
-      console.log('proxy request timed out. request: ' + opts.method
-                  + opts.path);
+      console.log('proxy request timed out. request: '
+                   + opts.method + ' ' + opts.path);
       err.name = 'RequestTimeout';
       err.message = 'Request Timeout.';
       next(err);
