@@ -30,7 +30,13 @@ module.exports = function proxyMiddleware(options) {
                     + opts.method + ' ' + opts.path);
         return;
       }
-      resp.writeHead(myRes.statusCode, myRes.headers);
+      try {
+        resp.writeHead(myRes.statusCode, myRes.headers);
+      } catch (e) {
+        console.log(e.name + ': ' + e.message + ' - ' 
+                    + opts.method + ' ' + opts.path);
+        return;
+      }
       myRes.on('error', function (err) {
         next(err);
       });
