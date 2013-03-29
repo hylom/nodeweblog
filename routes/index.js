@@ -6,6 +6,7 @@
 exports.admin = require('./admin');
 exports.story = require('./story');
 var stories = require('../models/stories');
+var config = require('../config.json');
 
 // インデックスページを表示する
 exports.index = function(req, res){
@@ -36,7 +37,7 @@ exports.index = function(req, res){
     // テンプレートに与えるパラメータ
     var params = {
       page: {
-        title: 'nblog',
+        title: config.blogInfo.title,
         next: hasNext ? '/page/' + (pageNum + 1)
           : undefined,
         previous: hasPrevious ? '/page/' + (pageNum - 1)
@@ -77,7 +78,7 @@ exports.tag = function(req, res){
     // テンプレートに与えるパラメータ
     var params = {
       page: {
-        title: 'nblog: ' + req.params.tag,
+        title: config.blogInfo.title + ': ' + req.params.tag,
         next: hasNext ? '/tag/' + tag + '/page/' + (pageNum + 1)
           : undefined,
         previous: (skip > 0) ? '/tag/' + tag + '/page/' + (pageNum - 1)
@@ -103,7 +104,7 @@ exports.single = function(req, res, next){
       // return;
     }
     res.render('single', {
-      page: { title: 'nblog' },
+      page: { title: config.blogInfo.title },
       user: req.session.user || false,
       story: item
     });
