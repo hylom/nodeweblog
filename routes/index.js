@@ -104,7 +104,7 @@ exports.single = function(req, res, next){
       // return;
     }
     res.render('single', {
-      page: { title: config.blogInfo.title },
+      page: { title: item.title + ' - ' + config.blogInfo.title },
       user: req.session.user || false,
       story: item
     });
