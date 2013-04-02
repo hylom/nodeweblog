@@ -51,7 +51,7 @@ exports.index = function(req, res){
   });
 };
 
-exports.tag = function(req, res){
+exports.tag = function(req, res, next){
   var pageNum = Number(req.params.page) || 1;
   var count = 10;
   var skip = count * (pageNum - 1);
@@ -63,8 +63,9 @@ exports.tag = function(req, res){
       return;
     }
     if (items === null) {
-      res.send(404, '404: Not Found.');
-      return;
+      return next();
+//      res.send(404, '404: Not Found.');
+//      return;
     }
     // 取得された記事数がcountよりも多ければ次ページがある
     var hasNext = false;
