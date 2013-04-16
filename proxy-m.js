@@ -39,20 +39,16 @@ module.exports = function proxyMiddleware(options) {
       }
       myRes.on('error', function (err) {
         resp.send(500, err.name);
-        // next(err);
       });
       myRes.pipe(resp);
     });
     myReq.on('error', function (err) {
-      next(err);
+      // return 500 (Internal Server Error)
+      resp.send(500, err.code);
     });
     myReq.setTimeout(5000, function () {
-      var err = new Error();
-      console.log('proxy request timed out. request: '
-                   + opts.method + ' ' + opts.path);
-      err.name = 'RequestTimeout';
-      err.message = 'Request Timeout.';
-      next(err);
+      // abort request, then 'error' event occurs in request object
+      req.abort();
     });
     if (!req.readable) {
       myReq.end();
