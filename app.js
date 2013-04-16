@@ -12,6 +12,7 @@ var fs = require('fs');
 var MemcachedStore = require('connect-memcached')(express);
 var config = require('./config');
 var app = express();
+var embedIframe = require('./embedIframe');
 
 app.configure(function(){
   app.set('config', config);
@@ -50,6 +51,13 @@ app.configure(function(){
   }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+
+  // embed iframe
+  embedOptions = {
+    'acceptableHosts': ['gist.github.com'],
+    'useCSS': '/css/bootstrap.min.css'
+  };
+  app.use('/embed/', embedIframe(embedOptions));
 
   // use proxy
   if (config.useProxy) {
