@@ -90,6 +90,8 @@ app.get('/page/:page', routes.index);
 app.get('/:url', routes.single);
 app.get('/', routes.index);
 
+app.get('/filemanager/', routes.filemanager.index);
+
 http.createServer(app).listen(app.get('port'), function () {
   if ((config.nodeUser !== undefined) && (process.getuid() == 0) ){
     process.setgid(config.nodeUser.gid);
