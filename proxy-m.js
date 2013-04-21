@@ -48,7 +48,7 @@ module.exports = function proxyMiddleware(options) {
     });
     myReq.setTimeout(5000, function () {
       // abort request, then 'error' event occurs in request object
-      req.abort();
+      myReq.abort();
     });
     if (!req.readable) {
       myReq.end();
