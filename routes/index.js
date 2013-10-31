@@ -14,6 +14,9 @@ exports.index = function(req, res){
   var count = 10;
   var skip = count * (pageNum - 1);
 
+  // req.sessionが存在しない場合の逃げ道
+  req.session = req.session || {}
+
   // 次ページがあるかどうかを判断するため、count+1件を取得する
   stories.getLatest(count + 1, skip, function (err, items){
     if (err) {
