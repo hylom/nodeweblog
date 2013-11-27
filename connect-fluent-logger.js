@@ -3,10 +3,9 @@
  *
  */
 
-var express = require('express');
 var logger = require('fluent-logger');
 
-exports = module.expports = function fluentLogger(options) {
+exports = module.exports = function fluentLogger(options) {
   if ('object' == typeof options) {
     options = options || {};
   } else {
