@@ -13,6 +13,7 @@ var MemcachedStore = require('connect-memcached')(express);
 var config = require('./config');
 var app = express();
 var embedIframe = require('./embedIframe');
+var logger = require('./connect-fluent-logger');
 
 app.configure(function(){
   app.set('config', config);
@@ -39,6 +40,7 @@ app.configure(function(){
       format: 'default',
       stream: logStream || process.stdout
     }));
+    app.use(logger());
   }
 
   app.use(express.bodyParser());
