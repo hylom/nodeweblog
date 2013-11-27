@@ -47,7 +47,7 @@ exports = module.exports = function fluentLogger(options) {
       record.path = req.originalUrl || req.url;
       record.httpVersion = req.httpVersionMajor + '.' + req.httpVersionMinor;
       record.code = res.headerSent ? res.statusCode : null;
-      record.size = res.headers["content-length"];
+      record.size = (res._headers || {})["content-length"];
       record.referer = req.headers['referer'] || req.headers['referrer'];
       record.agent = req.headers['user-agent'];
 
