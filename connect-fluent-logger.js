@@ -51,7 +51,11 @@ exports = module.exports = function fluentLogger(options) {
       record.referer = req.headers['referer'] || req.headers['referrer'];
       record.agent = req.headers['user-agent'];
 
-      logger.emit('access', record);
+      try {
+        logger.emit('access', record);
+      } catch (e) {
+        process.stderr.write('error occuerd in fluent-logger' + util.inspect(e) + '\n');
+      }
     };
     
     if (immediate) {
