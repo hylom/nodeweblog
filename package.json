@@ -11,6 +11,7 @@
     "jade": "*",
     "dateformat": "*",
     "connect-memcached": "*",
-    "proxy-middleware": "*"
+    "proxy-middleware": "*",
+    "fluent-logger": "*"
   }
 }
