@@ -40,7 +40,7 @@ app.configure(function(){
       format: 'default',
       stream: logStream || process.stdout
     }));
-    app.use(logger());
+    app.use(logger({tag:"nodeweblog"}));
   }
 
   app.use(express.bodyParser());
