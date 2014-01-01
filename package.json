@@ -12,6 +12,6 @@
     "dateformat": "*",
     "connect-memcached": "*",
     "proxy-middleware": "*",
-    "fluent-logger": "*"
+    "connect-fluent-logger": "*"
   }
 }
