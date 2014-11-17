@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .row
+    .contents.well.file-manager
+      form#file-manager(method='POST', action='/filemanager/')
+        label
+          input(type='file', name='file', placeholder='select file...')
+        label
+          button.btn(type='submit', name='upload') Upload File
+

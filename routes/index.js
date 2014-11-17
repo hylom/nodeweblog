@@ -5,6 +5,7 @@
 
 exports.admin = require('./admin');
 exports.story = require('./story');
+exports.filemanager = require('./filemanager');
 var stories = require('../models/stories');
 var config = require('../config.json');
 

@@ -2,8 +2,8 @@ extends layout
 
 block content
   .row
-    .contents.well.storyeditor
-      form(method='POST', action='/story/update')
+    .contents.well.story-editor
+      form#story-editor(method='POST', action='/story/update')
         input(type='hidden', name='sid', value=story.sid)
         label
           input(type='text', name='title', placeholder='Title', value=story.title)

@@ -70,9 +70,14 @@ footer {
   padding-top: 20px;
 }
 
-.storyeditor input,
-.storyeditor textarea {
+/* editor */
+#story-editor input,
+#story-editor textarea {
   width: 100%;
+}
+
+#story-editor textarea[name="body"] {
+  height: 400px;
 }
 
 .account-settings {
